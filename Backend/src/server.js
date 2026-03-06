@@ -29,5 +29,25 @@ io.on("connection", (socket) => {
   });
 });
 
-await connectDB(env.MONGO_URI);
-server.listen(env.PORT, () => console.log(`✅ API running on http://localhost:${env.PORT}`));
+console.log("🚀 Starting server...");
+console.log("📂 Env PORT:", env.PORT);
+console.log("📂 Env CLIENT_URL:", env.CLIENT_URL);
+
+if (!env.MONGO_URI) {
+  console.error("❌ ERROR: MONGO_URI is not defined in environment variables!");
+  process.exit(1);
+}
+
+try {
+  console.log("⏳ Connecting to MongoDB...");
+  await connectDB(env.MONGO_URI);
+  
+  server.listen(env.PORT, () => {
+    console.log(`✅ API running on port ${env.PORT}`);
+    console.log(`📡 CORS Origin: ${env.CLIENT_URL}`);
+  });
+} catch (error) {
+  console.error("❌ Fatal error during startup:");
+  console.error(error);
+  process.exit(1);
+}
