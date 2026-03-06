@@ -103,7 +103,8 @@ export default function HackathonDetails() {
   }
 
   function downloadCertificate() {
-    window.open(`http://localhost:8080/api/hackathons/${id}/cert/download`, "_blank");
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+    window.open(`${apiUrl}/hackathons/${id}/cert/download`, "_blank");
   }
 
   if (!hack) {
@@ -542,8 +543,8 @@ function TeammatesModal({ onClose }) {
                   onClick={() => handleRequest(user.id)}
                   disabled={requested.includes(user.id)}
                   className={`shrink-0 w-full sm:w-auto px-4 py-2 rounded-xl text-sm font-bold transition-all ${requested.includes(user.id)
-                      ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed border border-slate-200 dark:border-slate-700"
-                      : "bg-cyan-500 text-white hover:bg-cyan-400 shadow-lg shadow-cyan-500/25"
+                    ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed border border-slate-200 dark:border-slate-700"
+                    : "bg-cyan-500 text-white hover:bg-cyan-400 shadow-lg shadow-cyan-500/25"
                     }`}
                 >
                   {requested.includes(user.id) ? "Request Sent" : "Send Invite"}
